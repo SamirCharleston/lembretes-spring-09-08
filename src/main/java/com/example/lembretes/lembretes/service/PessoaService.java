@@ -1,6 +1,5 @@
 package com.example.lembretes.lembretes.service;
 
-import com.example.lembretes.lembretes.dto.LembreteDTO;
 import com.example.lembretes.lembretes.dto.LembreteOutDTO;
 import com.example.lembretes.lembretes.dto.PessoaInDTO;
 import com.example.lembretes.lembretes.dto.PessoaOutDTO;
@@ -10,11 +9,13 @@ import com.example.lembretes.lembretes.repository.PessoaRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class PessoaService {
     @Autowired
     PessoaRepository repository;
@@ -34,6 +35,7 @@ public class PessoaService {
         }
         Pessoa pessoa = new Pessoa();
         pessoa.setNome(pessoaInDTO.getNome());
+        pessoa.setLembretes(pessoaInDTO.getLembretes());
         repository.save(pessoa);
         return "Saved Success!";
     }
@@ -69,6 +71,17 @@ public class PessoaService {
         pessoaOutDTO.setLembretes(pessoa.getLembretes());
         pessoaOutDTO.setId(pessoa.getId());
         return pessoaOutDTO;
+    }
+    public String insertMore(String name, String message){
+        Pessoa pessoa = repository.findByName(name);
+        if(pessoa == null){
+            throw new EntityNotFoundException("Name not found!");
+        }
+        Lembrete lembrete = new Lembrete();
+        lembrete.setRecado(message);
+        pessoa.getLembretes().add(lembrete);
+        repository.save(pessoa);
+        return "Success!";
     }
     public List<LembreteOutDTO> encontrarLembretesLem(String name){
         Pessoa pessoa = repository.findByName(name);

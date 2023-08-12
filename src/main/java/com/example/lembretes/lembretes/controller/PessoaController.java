@@ -9,8 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/pessoa")
 public class PessoaController {
@@ -22,7 +20,7 @@ public class PessoaController {
             return ResponseEntity.ok(pessoaService.findByName(nome));
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    e.getCause().getCause().getMessage());
+                    e.getMessage());
         }
     }
     @GetMapping("lembretes")
@@ -31,7 +29,7 @@ public class PessoaController {
             return ResponseEntity.ok(pessoaService.encontrarLembretes(nome));
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    e.getCause().getCause().getMessage());
+                    e.getMessage());
         }
     }
     @PostMapping("/registrar")
@@ -40,7 +38,7 @@ public class PessoaController {
             return ResponseEntity.ok(pessoaService.savePerson(pessoaInDTO));
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    e.getCause().getCause().getMessage());
+                    e.getMessage());
         }
     }
     @PutMapping("/atualizar")
@@ -50,7 +48,7 @@ public class PessoaController {
             return ResponseEntity.ok(pessoaService.updatePerson(name, pessoaInDTO));
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    e.getCause().getCause().getMessage());
+                    e.getMessage());
         }
     }
     @DeleteMapping("/delete")
@@ -59,7 +57,7 @@ public class PessoaController {
             return ResponseEntity.ok(pessoaService.deletePerson(nome));
         } catch (Exception e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    e.getCause().getCause().getMessage());
+                    e.getMessage());
         }
     }
 }
