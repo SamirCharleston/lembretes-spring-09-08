@@ -35,7 +35,6 @@ public class PessoaService {
         }
         Pessoa pessoa = new Pessoa();
         pessoa.setNome(pessoaInDTO.getNome());
-        pessoa.setLembretes(pessoaInDTO.getLembretes());
         repository.save(pessoa);
         return "Saved Success!";
     }
